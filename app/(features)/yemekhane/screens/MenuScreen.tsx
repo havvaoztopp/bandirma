@@ -1,14 +1,14 @@
 /**
  * MenuScreen
  * Günün Menüsü ekranı - Tasarım 1
- * Gün seçici, menü kartları ve oylama sistemi
+ * Tüm sayfa kayar (header dahil)
  * 
  * Bandırma Onyedi Eylül Üniversitesi - Şubat 2026
  */
 import React, { useState, useMemo } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { colors, spacing, borderRadius, fontSize, fontWeight } from '../theme';
-import { weeklyMenuData, densityData, universityInfo, serviceHours, DailyMenu } from '../mockData';
+import { weeklyMenuData, densityData, serviceHours, DailyMenu } from '../mockData';
 import DaySelector from '../components/DaySelector';
 import MealSection from '../components/MealSection';
 import VoteSection from '../components/VoteSection';
@@ -34,7 +34,6 @@ const getNext5Weekdays = (): DailyMenu[] => {
 
         if (menu) {
             // Hafta sonu değilse ekle (Cumartesi=6, Pazar=0)
-            // dayName kontrolü ile hafta sonu olup olmadığını anla
             const isWeekend = menu.dayName === 'Cumartesi' || menu.dayName === 'Pazar';
             if (!isWeekend) {
                 weekdays.push(menu);
@@ -93,7 +92,11 @@ export default function MenuScreen({ }: MenuScreenProps) {
     };
 
     return (
-        <View style={styles.container}>
+        <ScrollView
+            style={styles.container}
+            showsVerticalScrollIndicator={false}
+            bounces={true}
+        >
             {/* Header */}
             <View style={styles.header}>
                 <Text style={styles.headerTitle}>Günün Menüsü</Text>
@@ -109,10 +112,8 @@ export default function MenuScreen({ }: MenuScreenProps) {
                 onDaySelect={setSelectedDayId}
             />
 
-            <ScrollView
-                style={styles.content}
-                showsVerticalScrollIndicator={false}
-            >
+            {/* İçerik alanı */}
+            <View style={styles.content}>
                 {/* Tarih ve toplam kalori */}
                 <View style={styles.dateInfo}>
                     <Text style={styles.dateText}>
@@ -147,17 +148,10 @@ export default function MenuScreen({ }: MenuScreenProps) {
                     onVote={handleVote}
                 />
 
-                {/* Alerji uyarısı */}
-                <View style={styles.warningCard}>
-                    <Text style={styles.warningText}>
-                        ⚠️ {universityInfo.allergyNote}
-                    </Text>
-                </View>
-
                 {/* Alt boşluk */}
                 <View style={styles.bottomSpacer} />
-            </ScrollView>
-        </View>
+            </View>
+        </ScrollView>
     );
 }
 
@@ -191,11 +185,11 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
     content: {
-        flex: 1,
         backgroundColor: colors.backgroundLight,
         borderTopLeftRadius: borderRadius.xl,
         borderTopRightRadius: borderRadius.xl,
         marginTop: spacing.md,
+        minHeight: 600,
     },
     dateInfo: {
         flexDirection: 'row',
@@ -214,18 +208,6 @@ const styles = StyleSheet.create({
         fontSize: fontSize.sm,
         color: colors.primaryAccent,
         fontWeight: fontWeight.semibold,
-    },
-    warningCard: {
-        backgroundColor: '#FEF3C7',
-        marginHorizontal: spacing.lg,
-        marginTop: spacing.md,
-        padding: spacing.md,
-        borderRadius: borderRadius.lg,
-    },
-    warningText: {
-        fontSize: fontSize.xs,
-        color: '#92400E',
-        lineHeight: 18,
     },
     bottomSpacer: {
         height: spacing.xxxl,
