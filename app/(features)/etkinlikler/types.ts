@@ -2,55 +2,43 @@
  * Etkinlikler Modülü Type Tanımlamaları
  */
 
-// Topluluk (Community) tipi
 export interface Community {
     id: string;
     name: string;
-    logo: string; // URL veya local asset
+    logo: string;
     isVerified: boolean;
 }
 
-// Etkinlik tipi
 export interface Event {
     id: string;
     communityId: string;
     title: string;
     description: string;
-    image: string; // Etkinlik afişi URL'i
-    date: string; // YYYY-MM-DD formatı
-    time: string; // HH:MM formatı
-    endTime?: string; // Bitiş saati (opsiyonel)
+    image: string;
+    date: string;
+    time: string;
+    endTime?: string;
     location: string;
     createdAt: Date;
-    color: string; // Takvimde gösterilecek dot rengi
+    color: string;
 }
 
-// Bildirim tipleri
 export type NotificationType =
-    | 'timeChange'      // Saat değişikliği
-    | 'dateChange'      // Tarih güncelleme
-    | 'cancelled'       // İptal
-    | 'newEvent'        // Yeni etkinlik
-    | 'locationChange'  // Mekan değişikliği
-    | 'reminder';       // Hatırlatma
+    | 'timeChange'
+    | 'dateChange'
+    | 'cancelled'
+    | 'newEvent'
+    | 'locationChange'
+    | 'reminder';
 
-// Bildirim tipi
 export interface Notification {
     id: string;
     type: NotificationType;
     title: string;
     description: string;
-    eventId?: string; // İlgili etkinlik (opsiyonel)
+    eventId?: string;
     createdAt: Date;
     isRead: boolean;
 }
 
-// Ekran durumu
 export type ScreenType = 'feed' | 'calendar' | 'dailyProgram' | 'notifications';
-
-// Seçilen gün bilgisi
-export interface SelectedDay {
-    date: string; // YYYY-MM-DD
-    dayOfWeek: string; // Pzt, Sal, vb.
-    dayNumber: number;
-}

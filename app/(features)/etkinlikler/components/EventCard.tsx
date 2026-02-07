@@ -1,8 +1,6 @@
 /**
- * EventCard Bileşeni
- * Feed'de gösterilen etkinlik kartı
+ * EventCard Bileşeni - Feed kart yapısı
  */
-
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { colors, spacing, fontSize, fontWeight, borderRadius, shadows } from '../theme';
@@ -15,45 +13,31 @@ interface EventCardProps {
 }
 
 export default function EventCard({ event, community }: EventCardProps) {
-    const timeAgo = getTimeAgo(event.createdAt);
-    const formattedDate = formatDateTurkish(event.date);
-
     return (
         <View style={styles.container}>
             {/* Üst Alan - Topluluk Bilgisi */}
             <View style={styles.header}>
-                <Image
-                    source={{ uri: community.logo }}
-                    style={styles.logo}
-                    defaultSource={{ uri: 'https://via.placeholder.com/40' }}
-                />
+                <Image source={{ uri: community.logo }} style={styles.logo} />
                 <View style={styles.headerText}>
                     <Text style={styles.communityName}>{community.name}</Text>
-                    <Text style={styles.timeAgo}>{timeAgo}</Text>
+                    <Text style={styles.timeAgo}>{getTimeAgo(event.createdAt)}</Text>
                 </View>
             </View>
 
             {/* Orta Alan - Etkinlik Görseli */}
             <View style={styles.imageContainer}>
-                <Image
-                    source={{ uri: event.image }}
-                    style={styles.eventImage}
-                    resizeMode="cover"
-                />
+                <Image source={{ uri: event.image }} style={styles.eventImage} resizeMode="cover" />
             </View>
 
             {/* Alt Alan - Etkinlik Detayları */}
             <View style={styles.content}>
                 <Text style={styles.eventTitle}>{event.title}</Text>
-                <Text style={styles.eventDescription} numberOfLines={2}>
-                    {event.description}
-                </Text>
+                <Text style={styles.eventDescription} numberOfLines={2}>{event.description}</Text>
 
-                {/* Tarih, Konum, Saat */}
                 <View style={styles.detailsContainer}>
                     <View style={styles.detailItem}>
                         <Text style={styles.detailIcon}>📅</Text>
-                        <Text style={styles.detailText}>{formattedDate}</Text>
+                        <Text style={styles.detailText}>{formatDateTurkish(event.date)}</Text>
                     </View>
                     <View style={styles.detailItem}>
                         <Text style={styles.detailIcon}>📍</Text>
@@ -70,74 +54,19 @@ export default function EventCard({ event, community }: EventCardProps) {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: colors.cardLight,
-        borderRadius: borderRadius.lg,
-        marginHorizontal: spacing.lg,
-        marginBottom: spacing.lg,
-        ...shadows.card,
-    },
-    header: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        padding: spacing.md,
-    },
-    logo: {
-        width: 40,
-        height: 40,
-        borderRadius: borderRadius.full,
-        backgroundColor: colors.border,
-    },
-    headerText: {
-        marginLeft: spacing.md,
-    },
-    communityName: {
-        fontSize: fontSize.lg,
-        fontWeight: fontWeight.semibold,
-        color: colors.textPrimary,
-    },
-    timeAgo: {
-        fontSize: fontSize.sm,
-        color: colors.accent,
-        marginTop: 2,
-    },
-    imageContainer: {
-        paddingHorizontal: spacing.md,
-    },
-    eventImage: {
-        width: '100%',
-        height: 200,
-        borderRadius: borderRadius.md,
-        backgroundColor: colors.border,
-    },
-    content: {
-        padding: spacing.md,
-    },
-    eventTitle: {
-        fontSize: fontSize.xl,
-        fontWeight: fontWeight.bold,
-        color: colors.textPrimary,
-        marginBottom: spacing.xs,
-    },
-    eventDescription: {
-        fontSize: fontSize.md,
-        color: colors.textSecondary,
-        lineHeight: 20,
-        marginBottom: spacing.md,
-    },
-    detailsContainer: {
-        gap: spacing.sm,
-    },
-    detailItem: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    detailIcon: {
-        fontSize: 14,
-        marginRight: spacing.sm,
-    },
-    detailText: {
-        fontSize: fontSize.md,
-        color: colors.accent,
-    },
+    container: { backgroundColor: colors.cardLight, borderRadius: borderRadius.lg, marginHorizontal: spacing.lg, marginBottom: spacing.lg, ...shadows.card },
+    header: { flexDirection: 'row', alignItems: 'center', padding: spacing.md },
+    logo: { width: 40, height: 40, borderRadius: borderRadius.full, backgroundColor: colors.border },
+    headerText: { marginLeft: spacing.md },
+    communityName: { fontSize: fontSize.lg, fontWeight: fontWeight.semibold, color: colors.textPrimary },
+    timeAgo: { fontSize: fontSize.sm, color: colors.accent, marginTop: 2 },
+    imageContainer: { paddingHorizontal: spacing.md },
+    eventImage: { width: '100%', height: 200, borderRadius: borderRadius.md, backgroundColor: colors.border },
+    content: { padding: spacing.md },
+    eventTitle: { fontSize: fontSize.xl, fontWeight: fontWeight.bold, color: colors.textPrimary, marginBottom: spacing.xs },
+    eventDescription: { fontSize: fontSize.md, color: colors.textSecondary, lineHeight: 20, marginBottom: spacing.md },
+    detailsContainer: { gap: spacing.sm },
+    detailItem: { flexDirection: 'row', alignItems: 'center' },
+    detailIcon: { fontSize: 14, marginRight: spacing.sm },
+    detailText: { fontSize: fontSize.md, color: colors.accent },
 });

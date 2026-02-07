@@ -1,33 +1,32 @@
 /**
  * Etkinlikler Modülü Tema Dosyası
- * Tasarımlardan çıkarılan renk paleti ve stil sabitleri
  */
 
 export const colors = {
     // Background Colors
-    backgroundLight: '#FFFFFF',      // Light mode arka plan
-    backgroundDark: '#0F172A',       // Dark mode arka plan
+    backgroundLight: '#FFFFFF',
+    backgroundDark: '#0F172A',
 
     // Card Colors
-    cardLight: '#F8F7F7',            // Light mode kart arka planı
-    cardDark: '#1E293B',             // Dark mode kart arka planı
+    cardLight: '#F8F7F7',
+    cardDark: '#1E293B',
 
     // Primary Accent
-    accent: '#26ABE2',               // Tarih, saat, konum ikonları, seçili gün
+    accent: '#26ABE2',
 
     // Text Colors
-    textPrimary: '#0A0A0A',          // Ana metin, gün sayıları
-    textSecondary: '#B0B0B0',        // Haftanın günleri, alt metinler
-    textWhite: '#FFFFFF',            // Beyaz metin
+    textPrimary: '#0A0A0A',
+    textSecondary: '#B0B0B0',
+    textWhite: '#FFFFFF',
 
     // Notification Colors
-    notificationBlue: '#26ABE2',     // Saat değişikliği
-    notificationOrange: '#F59E0B',   // Tarih güncelleme
-    notificationRed: '#EF4444',      // İptal
-    notificationGreen: '#22C55E',    // Yeni etkinlik
-    notificationPurple: '#8B5CF6',   // Mekan değişikliği
+    notificationBlue: '#26ABE2',
+    notificationOrange: '#F59E0B',
+    notificationRed: '#EF4444',
+    notificationGreen: '#22C55E',
+    notificationPurple: '#8B5CF6',
 
-    // Event Dot Colors (Takvim için)
+    // Event Dot Colors
     dotTeal: '#14B8A6',
     dotOrange: '#F97316',
     dotPink: '#EC4899',
@@ -36,8 +35,6 @@ export const colors = {
 
     // Other
     border: '#E5E7EB',
-    shadow: 'rgba(0, 0, 0, 0.1)',
-    overlay: 'rgba(0, 0, 0, 0.5)',
     unreadDot: '#26ABE2',
 };
 
@@ -66,7 +63,6 @@ export const fontSize = {
     lg: 16,
     xl: 18,
     xxl: 20,
-    xxxl: 24,
     title: 18,
 };
 
@@ -85,16 +81,8 @@ export const shadows = {
         shadowRadius: 8,
         elevation: 3,
     },
-    button: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.05,
-        shadowRadius: 4,
-        elevation: 2,
-    },
 };
 
-// Bildirim tipleri için renkler
 export const notificationTypeColors = {
     timeChange: colors.notificationBlue,
     dateChange: colors.notificationOrange,
@@ -104,7 +92,6 @@ export const notificationTypeColors = {
     reminder: colors.accent,
 };
 
-// Etkinlik dot renkleri (takvim için)
 export const eventDotColors = [
     colors.dotTeal,
     colors.dotOrange,

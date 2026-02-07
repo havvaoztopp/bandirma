@@ -1,8 +1,6 @@
 /**
- * DailyProgramScreen
- * Seçilen günün etkinliklerini gösteren ekran
+ * DailyProgramScreen - Seçilen günün etkinlikleri
  */
-
 import React, { useMemo } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import { colors, spacing, fontSize, fontWeight, borderRadius } from '../theme';
@@ -19,65 +17,33 @@ interface DailyProgramScreenProps {
 
 const DAYS_SHORT = ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt'];
 
-export default function DailyProgramScreen({
-    selectedDate,
-    onDateChange,
-    onEventDetailsPress,
-    onClose,
-}: DailyProgramScreenProps) {
-    // Seçili günün etkinlikleri
+export default function DailyProgramScreen({ selectedDate, onDateChange, onEventDetailsPress, onClose }: DailyProgramScreenProps) {
     const dayEvents = useMemo(() => getEventsByDate(selectedDate), [selectedDate]);
 
-    // Takvim için gün listesi (seçili günün etrafındaki 14 gün)
     const days = useMemo(() => {
         const eventDates = getEventDates();
         const result = [];
         const baseDate = new Date(selectedDate);
-
-        // Önceki 3 gün ve sonraki 10 gün
         for (let i = -3; i <= 10; i++) {
             const date = new Date(baseDate);
             date.setDate(date.getDate() + i);
-
             const dateStr = date.toISOString().split('T')[0];
-            const dayOfWeek = DAYS_SHORT[date.getDay()];
-
-            result.push({
-                date: dateStr,
-                dayOfWeek,
-                dayNumber: date.getDate(),
-                hasEvents: eventDates.has(dateStr),
-            });
+            result.push({ date: dateStr, dayOfWeek: DAYS_SHORT[date.getDay()], dayNumber: date.getDate(), hasEvents: eventDates.has(dateStr) });
         }
-
         return result;
     }, [selectedDate]);
 
     return (
         <View style={styles.container}>
-            {/* Header */}
             <View style={styles.header}>
                 <Text style={styles.title}>Günlük Program</Text>
-                <TouchableOpacity
-                    style={styles.closeButton}
-                    onPress={onClose}
-                    activeOpacity={0.7}
-                >
+                <TouchableOpacity style={styles.closeButton} onPress={onClose} activeOpacity={0.7}>
                     <Text style={styles.closeIcon}>✕</Text>
                 </TouchableOpacity>
             </View>
-
-            {/* Gün Seçici */}
-            <DaySelector
-                days={days}
-                selectedDate={selectedDate}
-                onDateSelect={onDateChange}
-            />
-
-            {/* Etkinlik Listesi */}
+            <DaySelector days={days} selectedDate={selectedDate} onDateSelect={onDateChange} />
             <View style={styles.eventsContainer}>
                 <Text style={styles.sectionTitle}>BUGÜNKÜ ETKİNLİKLER</Text>
-
                 {dayEvents.length === 0 ? (
                     <View style={styles.emptyContainer}>
                         <Text style={styles.emptyText}>Bu gün için etkinlik bulunmuyor.</Text>
@@ -86,12 +52,7 @@ export default function DailyProgramScreen({
                     <FlatList
                         data={dayEvents}
                         keyExtractor={(item) => item.id}
-                        renderItem={({ item }) => (
-                            <EventMiniCard
-                                event={item}
-                                onDetailsPress={onEventDetailsPress}
-                            />
-                        )}
+                        renderItem={({ item }) => <EventMiniCard event={item} onDetailsPress={onEventDetailsPress} />}
                         showsVerticalScrollIndicator={false}
                         contentContainerStyle={styles.listContent}
                     />
@@ -102,58 +63,14 @@ export default function DailyProgramScreen({
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: colors.backgroundLight,
-    },
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingHorizontal: spacing.lg,
-        paddingTop: spacing.lg,
-        paddingBottom: spacing.md,
-    },
-    title: {
-        fontSize: fontSize.xxl,
-        fontWeight: fontWeight.bold,
-        color: colors.textPrimary,
-    },
-    closeButton: {
-        width: 32,
-        height: 32,
-        borderRadius: borderRadius.full,
-        backgroundColor: colors.border,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    closeIcon: {
-        fontSize: fontSize.md,
-        color: colors.textSecondary,
-    },
-    eventsContainer: {
-        flex: 1,
-        paddingTop: spacing.md,
-    },
-    sectionTitle: {
-        fontSize: fontSize.sm,
-        fontWeight: fontWeight.medium,
-        color: colors.textSecondary,
-        letterSpacing: 1,
-        marginHorizontal: spacing.lg,
-        marginBottom: spacing.md,
-    },
-    listContent: {
-        paddingBottom: spacing.xxl,
-    },
-    emptyContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingVertical: spacing.xxxl,
-    },
-    emptyText: {
-        fontSize: fontSize.md,
-        color: colors.textSecondary,
-    },
+    container: { flex: 1, backgroundColor: colors.backgroundLight },
+    header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: spacing.lg, paddingTop: spacing.lg, paddingBottom: spacing.md },
+    title: { fontSize: fontSize.xxl, fontWeight: fontWeight.bold, color: colors.textPrimary },
+    closeButton: { width: 32, height: 32, borderRadius: borderRadius.full, backgroundColor: colors.border, justifyContent: 'center', alignItems: 'center' },
+    closeIcon: { fontSize: fontSize.md, color: colors.textSecondary },
+    eventsContainer: { flex: 1, paddingTop: spacing.md },
+    sectionTitle: { fontSize: fontSize.sm, fontWeight: fontWeight.medium, color: colors.textSecondary, letterSpacing: 1, marginHorizontal: spacing.lg, marginBottom: spacing.md },
+    listContent: { paddingBottom: spacing.xxl },
+    emptyContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', paddingVertical: spacing.xxxl },
+    emptyText: { fontSize: fontSize.md, color: colors.textSecondary },
 });
